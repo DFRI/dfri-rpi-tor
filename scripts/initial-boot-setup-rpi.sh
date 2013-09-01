@@ -25,6 +25,14 @@ fi
 # Setup tor user
 useradd -d /usr/local/var/lib/tor -s /usr/sbin/nologin -m tor
 
+# Generate ssh-keys
+cd /etc/ssh
+rm -f *key*
+ssh-keygen -t dsa -f ssh_host_dsa_key -N ""
+ssh-keygen -t rsa -f ssh_host_rsa_key -N ""
+ssh-keygen -t ecdsa -f ssh_host_ecdsa_key -N ""
+service sshd restart
+
 # setup empty crontab, just so that we can assume that a crontab already exists
 if [ ! -f /var/spool/cron/crontabs/root ]
 then
