@@ -1,5 +1,4 @@
 A small summary of the scripts in this folder
-
 backup-rpi.sh
  - Called from /etc/rc.local, requires usb key connected
 
