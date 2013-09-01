@@ -6,3 +6,4 @@ then
   chown -R tor /usr/local/etc/tor /usr/local/var/lib/tor
 fi
 su - tor -c "/usr/local/bin/tor"
+exit 0

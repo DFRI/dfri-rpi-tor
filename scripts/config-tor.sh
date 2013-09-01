@@ -39,3 +39,4 @@ ContactInfo DFRI <tor AT dfri dot se>
 DataDirectory /usr/local/var/lib/tor
 ExitPolicy reject *:* # no exits allowed
 EOF
+exit 0

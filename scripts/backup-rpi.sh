@@ -11,3 +11,4 @@ then
   cp -rp /usr/local/var/lib/tor ${TARGETDIR}  
   cp -rp /usr/local/etc/tor/torrc ${TARGETDIR}  
 fi
+exit 0
