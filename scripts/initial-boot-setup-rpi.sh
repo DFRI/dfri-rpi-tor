@@ -44,7 +44,7 @@ fi
 RANDOM_MINUTE=$[ ( $RANDOM % 60 ) ]
 crontab -l > /tmp/root-crontab
 echo "# ntpdate, set time, its important" >> /tmp/root-crontab
-echo "${RANDOM_MINUTE} 1 * * * ( /etc/init.d/ntp stop ; /usr/sbin/ntpdate 0.se.pool.ntp.org ; /etc/init.d/ntp start ) 2>&1 > /dev/null" >> /tmp/root-crontab
+echo "${RANDOM_MINUTE} 1 * * * ( /etc/init.d/ntp stop ; /usr/sbin/ntpdate 0.se.pool.ntp.org ; /etc/init.d/ntp start ) > /dev/null 2>&1" >> /tmp/root-crontab
 crontab /tmp/root-crontab
 
 # Add another cronjob, update-rpi.sh
@@ -53,7 +53,7 @@ RANDOM_HOUR=$[ ( $RANDOM % 24 ) ]
 RANDOM_MONTHDAY=$[ ( $RANDOM % 24 ) + 1 ]
 crontab -l > /tmp/root-crontab
 echo "# Update! RPI" >> /tmp/root-crontab
-echo "${RANDOM_MINUTE} ${RANDOM_HOUR} ${RANDOM_MONTHDAY} * * /root/scripts/update-rpi.sh 2>&1 > /dev/null" >> /tmp/root-crontab
+echo "${RANDOM_MINUTE} ${RANDOM_HOUR} ${RANDOM_MONTHDAY} * * /root/scripts/update-rpi.sh > /dev/null 2>&1" >> /tmp/root-crontab
 crontab /tmp/root-crontab
 
 # Add another cronjob, update-rpi.sh
@@ -61,7 +61,7 @@ RANDOM_MINUTE=$[ ( $RANDOM % 60 ) ]
 RANDOM_HOUR=$[ ( $RANDOM % 24 ) ]
 crontab -l > /tmp/root-crontab
 echo "# Update! Scripts" >> /tmp/root-crontab
-echo "${RANDOM_MINUTE} ${RANDOM_HOUR} * * * /root/scripts/update-scripts.sh 2>&1 > /dev/null" >> /tmp/root-crontab
+echo "${RANDOM_MINUTE} ${RANDOM_HOUR} * * * /root/scripts/update-scripts.sh > /dev/null 2>&1" >> /tmp/root-crontab
 crontab /tmp/root-crontab
 
 # Set up autoremove and autoclean with apt-get
