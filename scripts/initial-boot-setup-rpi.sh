@@ -12,12 +12,18 @@ apt-get update
 apt-get install zlib1g-dev ntpdate git rpi-update -y
 
 # Dont forget perl-modules we use in scripts
-#cpan -fi Net::IP 
+if [ ! -f /usr/local/share/perl/5.14.2/Net/IP.pm ]
+then
+  cpan -fi Net::IP 
+fi
 
 # Set time
 /etc/init.d/ntp stop
 /usr/sbin/ntpdate 0.se.pool.ntp.org
 /etc/init.d/ntp start
+
+# Setup tor user
+useradd -d /usr/local/var/lib/tor -s /usr/sbin/nologin -m tor
 
 # setup empty crontab, just so that we can assume that a crontab already exists
 if [ ! -f /var/spool/cron/crontabs/root ]
@@ -65,50 +71,54 @@ fi
 # Fix rc.local
 egrep -v "/root/scripts|exit 0" /etc/rc.local > /etc/rc.local-new
 echo "/root/scripts/initial-boot-setup-rpi.sh" >> /etc/rc.local-new
+echo "/root/scripts/config-tor.sh" >> /etc/rc.local-new
 echo "/root/scripts/backup-rpi.sh" >> /etc/rc.local-new
 echo "exit 0" >> /etc/rc.local-new
 mv /etc/rc.local-new /etc/rc.local
 
-# Setup directories and navigate
-mkdir /root/source
-cd /root/source
-
-# Download stuff
-wget https://github.com/downloads/libevent/libevent/libevent-2.0.21-stable.tar.gz
-wget http://www.openssl.org/source/openssl-1.0.1e.tar.gz
-wget https://www.torproject.org/dist/tor-0.2.3.25.tar.gz
-wget http://miniupnp.free.fr/files/download.php?file=miniupnpc-1.8.20130801.tar.gz -O miniupnpc-1.8.20130801.tar.gz
-
-# Unpack downloaded files
-tar zxf libevent-2.0.21-stable.tar.gz
-tar zxf openssl-1.0.1e.tar.gz 
-tar zxf tor-0.2.3.25.tar.gz
-tar zxf miniupnpc-1.8.20130801.tar.gz
-
-# build and install stuff
-cd miniupnpc-1.8.20130801/
-make
-make install
-cd ..
-
-cd libevent-2.0.21-stable/
-./configure --prefix=/usr/local
-make -j2
-make install
-cd ..
-
-cd openssl-1.0.1e/
-./Configure dist --prefix=/usr/local
-make -j2
-make install
-cd ..
-
-cd tor-0.2.3.25/
-./configure --with-libevent-dir=/usr/local --with-openssl-dir=/usr/local --prefix=/usr/local
-make -j2
-make install
-cd ..
-
+if [ ! -f /usr/local/bin/tor ]
+then
+  # Setup directories and navigate
+  mkdir /root/source
+  cd /root/source
+  
+  # Download stuff
+  wget https://github.com/downloads/libevent/libevent/libevent-2.0.21-stable.tar.gz
+  wget http://www.openssl.org/source/openssl-1.0.1e.tar.gz
+  wget https://www.torproject.org/dist/tor-0.2.3.25.tar.gz
+  wget http://miniupnp.free.fr/files/download.php?file=miniupnpc-1.8.20130801.tar.gz -O miniupnpc-1.8.20130801.tar.gz
+  
+  # Unpack downloaded files
+  tar zxf libevent-2.0.21-stable.tar.gz
+  tar zxf openssl-1.0.1e.tar.gz 
+  tar zxf tor-0.2.3.25.tar.gz
+  tar zxf miniupnpc-1.8.20130801.tar.gz
+  
+  # build and install stuff
+  cd miniupnpc-1.8.20130801/
+  make
+  make install
+  cd ..
+  
+  cd libevent-2.0.21-stable/
+  ./configure --prefix=/usr/local
+  make -j2
+  make install
+  cd ..
+  
+  cd openssl-1.0.1e/
+  ./Configure dist --prefix=/usr/local
+  make -j2
+  make install
+  cd ..
+  
+  cd tor-0.2.3.25/
+  ./configure --with-libevent-dir=/usr/local --with-openssl-dir=/usr/local --prefix=/usr/local
+  make -j2
+  make install
+  cd ..
+fi
+  
 # Make sure /etc/dfri-setup-done exists
 touch /etc/dfri-setup-done
 
