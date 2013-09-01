@@ -11,3 +11,4 @@ then
 else
   mv dfri-rpi-tor-saved dfri-rpi-tor
 fi
+ln -sf /root/dfri-rpi-tor/scripts /root/scripts

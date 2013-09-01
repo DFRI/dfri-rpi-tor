@@ -84,6 +84,7 @@ echo "/root/scripts/backup-rpi.sh" >> /etc/rc.local-new
 echo "/root/scripts/start-tor.sh" >> /etc/rc.local-new
 echo "exit 0" >> /etc/rc.local-new
 mv /etc/rc.local-new /etc/rc.local
+chmod u+x /etc/rc.local
 
 if [ ! -f /usr/local/bin/tor ]
 then
