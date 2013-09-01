@@ -25,10 +25,13 @@ then
   mkdir -p /usr/local/etc/tor
 fi
 
+iptables -t nat -A PREROUTING -p tcp -i eth0 --dport 443 -j DNAT --to-destination 127.0.0.1:9090
+
 # Setup config
 cat > /usr/local/etc/tor/torrc <<EOF
 RunAsDaemon 1
-ORPort $MYPORT
+ORPort $MYPORT NoListen
+ORPort 127.0.0.1:9090 NoAdvertise
 Nickname $HOSTNAME
 RelayBandwidthRate $SPEED KB 
 RelayBandwidthBurst $SPEED KB

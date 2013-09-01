@@ -23,7 +23,7 @@ fi
 /etc/init.d/ntp start
 
 # Setup tor user
-useradd -d /usr/local/var/lib/tor -s /usr/sbin/nologin -m tor
+useradd -d /usr/local/var/lib/tor -s /bin/sh -m tor
 
 # Generate ssh-keys
 cd /etc/ssh
