@@ -1,9 +1,11 @@
 #!/bin/bash
 # A small simple script to start tor
+# Eh, will work better and be prettier when iptables redirect works
 
 if [ -f /usr/local/bin/tor ]
 then
-  chown -R tor /usr/local/etc/tor /usr/local/var/lib/tor
+  chown -R root /usr/local/etc/tor /usr/local/var/lib/tor
 fi
-su - tor -c "/usr/local/bin/tor"
+#su - tor -c "/usr/local/bin/tor"
+/usr/local/bin/tor
 exit 0
