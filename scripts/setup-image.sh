@@ -79,8 +79,15 @@ echo "Setting ${PIHOSTNAME} and giving pi-user the password: ${PASSWORD}"
 
 # Set pi users password
 grep -v ^pi: ${MOUNTDIR}/etc/shadow > ${MOUNTDIR}/etc/shadow-new
-echo "pi:${PASSWDHASH}:15948:0:99999:7:::" > ${MOUNTDIR}/etc/shadow-new
+echo "pi:${PASSWDHASH}:15948:0:99999:7:::" >> ${MOUNTDIR}/etc/shadow-new
 mv ${MOUNTDIR}/etc/shadow-new ${MOUNTDIR}/etc/shadow
+
+# Fix rc.local so that initial work happens
+egrep -v "/root/scripts|exit 0" /etc/rc.local > /etc/rc.local-new
+echo "/root/scripts/initial-boot-setup-rpi.sh" >> /etc/rc.local-new
+echo "exit 0" >> /etc/rc.local-new
+mv /etc/rc.local-new /etc/rc.local
+chmod u+x /etc/rc.local
 
 # Sleeping just to make stuff above to unmount
 cd
@@ -89,7 +96,7 @@ sleep 1
 # Done editing
 
 # Umount image
-umount ${MOUNTDIR}
+#umount ${MOUNTDIR}
 
 # Remove loops
-losetup -d ${LOOPDEV1} ${LOOPDEV2}
+#losetup -d ${LOOPDEV1} ${LOOPDEV2}
