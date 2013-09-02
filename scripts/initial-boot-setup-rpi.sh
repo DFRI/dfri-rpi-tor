@@ -11,7 +11,7 @@ rm -f *key*
 ssh-keygen -t dsa -f ssh_host_dsa_key -N ""
 ssh-keygen -t rsa -f ssh_host_rsa_key -N ""
 ssh-keygen -t ecdsa -f ssh_host_ecdsa_key -N ""
-service sshd restart
+/etc/init.d/ssh restart
 
 # Update sources
 apt-get update

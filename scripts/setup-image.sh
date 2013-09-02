@@ -74,7 +74,8 @@ echo ${PIHOSTNAME} > ${MOUNTDIR}/etc/hostname
 
 # Random password
 PASSWORD=$(pwgen -B -s 12 1)
-PASSWDHASH="$(dirname $0)/create-passwd-hash.pl $PASSWORD"
+PASSWDCMD=$(dirname $0)/create-passwd-hash.pl
+PASSWDHASH=$($PASSWDCMD $PASSWORD)
 echo "Setting ${PIHOSTNAME} and giving pi-user the password: ${PASSWORD}"
 
 # Set pi users password
@@ -83,11 +84,17 @@ echo "pi:${PASSWDHASH}:15948:0:99999:7:::" >> ${MOUNTDIR}/etc/shadow-new
 mv ${MOUNTDIR}/etc/shadow-new ${MOUNTDIR}/etc/shadow
 
 # Fix rc.local so that initial work happens
-egrep -v "/root/scripts|exit 0" /etc/rc.local > /etc/rc.local-new
-echo "/root/scripts/initial-boot-setup-rpi.sh" >> /etc/rc.local-new
-echo "exit 0" >> /etc/rc.local-new
-mv /etc/rc.local-new /etc/rc.local
-chmod u+x /etc/rc.local
+egrep -v "/root/scripts|exit 0" ${MOUNTDIR}/etc/rc.local > ${MOUNTDIR}/etc/rc.local-new
+echo "/root/scripts/initial-boot-setup-rpi.sh" >> ${MOUNTDIR}/etc/rc.local-new
+echo "exit 0" >> ${MOUNTDIR}/etc/rc.local-new
+mv ${MOUNTDIR}/etc/rc.local-new ${MOUNTDIR}/etc/rc.local
+chmod u+x ${MOUNTDIR}/etc/rc.local
+
+# Remove file that stops initial-boot-setup-rpi.sh from running
+rm -f ${MOUNTDIR}/etc/dfri*
+
+# Clean up /var/log
+find ${MOUNTDIR}/var/log -type f -exec rm {} \;
 
 # Sleeping just to make stuff above to unmount
 cd
