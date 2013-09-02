@@ -56,10 +56,14 @@ mount ${LOOPDEV2} ${MOUNTDIR}
 rm -f ${MOUNTDIR}/etc/ssh/*key* ${MOUNTDIR}/usr/local/etc/tor/torrc
 
 # remove directories
-rm -rf ${MOUNTDIR}/usr/local/var/lib/tor ${MOUNTDIR}/root
+rm -rf ${MOUNTDIR}/usr/local/var/lib/tor ${MOUNTDIR}/root ${MOUNTDIR}/home/pi
 
 # recreate directories
-mkdir ${MOUNTDIR}/root
+mkdir ${MOUNTDIR}/root ${MOUNTDIR}/home/pi
+
+# Fix pi-home
+cp -p ${MOUNTDIR}/etc/skel/.* ${MOUNTDIR}/home/pi/ > /dev/null 2>&1
+chown -R 1000:1000 ${MOUNTDIR}/home/pi/
 
 # Fetch from git
 cd ${MOUNTDIR}/root
@@ -91,10 +95,13 @@ mv ${MOUNTDIR}/etc/rc.local-new ${MOUNTDIR}/etc/rc.local
 chmod u+x ${MOUNTDIR}/etc/rc.local
 
 # Remove file that stops initial-boot-setup-rpi.sh from running
-rm -f ${MOUNTDIR}/etc/dfri*
+rm -f ${MOUNTDIR}/etc/dfri-setup-done
 
 # Clean up /var/log
 find ${MOUNTDIR}/var/log -type f -exec rm {} \;
+
+# Clean up /var/cache/apt/archives
+find ${MOUNTDIR}/var/cache/apt/archives -type f -name "*.deb" -exec rm {} \;
 
 # Sleeping just to make stuff above to unmount
 cd
@@ -102,8 +109,12 @@ sleep 1
 
 # Done editing
 
+# Just a gentle tip
+echo "You probably can copy the image with the following command"
+echo "dd if=${PIIMAGE} of=/dev/mmcblk0"
+
 # Umount image
-#umount ${MOUNTDIR}
+umount ${MOUNTDIR}
 
 # Remove loops
-#losetup -d ${LOOPDEV1} ${LOOPDEV2}
+losetup -d ${LOOPDEV1} ${LOOPDEV2}
