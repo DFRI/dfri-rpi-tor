@@ -3,14 +3,14 @@
 # This script will do what we need to configure the tor-node
 
 # Fetch 1MB-file to do a crude bandwitdh-test
-SPEED=$(wget https://www.dfri.se/files/1Mb.file -O /tmp/1Mb.file 2>&1 | awk '$0 ~ /saved/ { print $3 }' | sed 's/(//g')
+SPEED=$(wget https://www.dfri.se/files/1Mb.file -O /dev/null 2>&1 | awk '$0 ~ /saved/ { print $3 }' | sed 's/(//g')
 SPEED=$(perl -E "say ${SPEED}*1024/2.8/8" | sed 's/\..*$//g')
 
 # Default port
 MYPORT=443
 
 # Check IP
-MYIP=$(ifconfig | grep inet | grep -v 127.0.0.1 | awk '{ print $2 }' | sed 's/addr://g')
+MYIP=$(ifconfig | awk '$0 ~ /inet/ && $0 !~ /127\.0\.0\.1/ { print $2 }' | sed 's/addr://g' | head -1)
 
 # Verify if its a private IP
 if [ "$(/root/scripts/check-iptype.pl ${MYIP})" = "PRIVATE" ]
@@ -36,8 +36,8 @@ cat > /usr/local/etc/tor/torrc <<EOF
 RunAsDaemon 1
 Nickname $HOSTNAME
 ORPort $MYPORT
-RelayBandwidthRate $SPEED KB 
-RelayBandwidthBurst $SPEED KB
+BandwidthRate $SPEED KB 
+BandwidthBurst $SPEED KB
 ContactInfo DFRI <tor AT dfri dot se>
 DataDirectory /usr/local/var/lib/tor
 ExitPolicy reject *:* # no exits allowed

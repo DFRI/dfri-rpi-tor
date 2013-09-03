@@ -94,8 +94,13 @@ then
   
   # Download stuff
   wget https://github.com/downloads/libevent/libevent/libevent-2.0.21-stable.tar.gz
-  wget http://www.openssl.org/source/openssl-1.0.1e.tar.gz
+  wget https://github.com/downloads/libevent/libevent/libevent-2.0.21-stable.tar.gz.asc
+  wget https://www.openssl.org/source/openssl-1.0.1e.tar.gz
+  wget https://www.openssl.org/source/openssl-1.0.1e.tar.gz.asc
   wget https://www.torproject.org/dist/tor-0.2.3.25.tar.gz
+  wget https://www.torproject.org/dist/tor-0.2.3.25.tar.gz.asc
+  #wget https://www.torproject.org/dist/tor-0.2.4.16-rc.tar.gz
+  #wget https://www.torproject.org/dist/tor-0.2.4.16-rc.tar.gz.asc
   wget http://miniupnp.free.fr/files/download.php?file=miniupnpc-1.8.20130801.tar.gz -O miniupnpc-1.8.20130801.tar.gz
   
   # Unpack downloaded files
