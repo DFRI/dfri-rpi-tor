@@ -7,5 +7,5 @@ then
   chown -R root /usr/local/etc/tor /usr/local/var/lib/tor
 fi
 #su - tor -c "/usr/local/bin/tor"
-/usr/local/bin/tor
+/usr/local/bin/tor -f /usr/local/etc/tor/torrc
 exit 0

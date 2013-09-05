@@ -38,7 +38,7 @@ Nickname $HOSTNAME
 ORPort $MYPORT
 BandwidthRate $SPEED KB 
 BandwidthBurst $SPEED KB
-ContactInfo DFRI <tor AT dfri dot se>
+ContactInfo DFRI <rpitor AT dfri dot se>
 DataDirectory /usr/local/var/lib/tor
 ExitPolicy reject *:* # no exits allowed
 EOF
