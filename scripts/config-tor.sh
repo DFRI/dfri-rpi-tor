@@ -35,6 +35,7 @@ BandwidthRate $SPEED KB
 BandwidthBurst $SPEED KB
 ContactInfo DFRI <rpitor AT dfri dot se>
 DataDirectory /usr/local/var/lib/tor
+AvoidDiskWrites 1
 ExitPolicy reject *:* # no exits allowed
 EOF
 exit 0
