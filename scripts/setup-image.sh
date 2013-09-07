@@ -130,7 +130,7 @@ echo "You probably can copy the image with the following command"
 echo "dd if=${PIIMAGE} of=/dev/mmcblk0"
 
 # Umount image
-umount ${MOUNTDIR}
+#umount ${MOUNTDIR}
 
 # Remove loops
-losetup -d ${LOOPDEV1} ${LOOPDEV2}
+#losetup -d ${LOOPDEV1} ${LOOPDEV2}

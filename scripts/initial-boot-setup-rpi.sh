@@ -25,6 +25,13 @@ then
   cpan -fi Net::IP 
 fi
 
+# Fix hosts.deny
+echo "ALL: ALL" >> /etc/hosts.deny
+
+# Fix hosts.allow
+NETWORK="192.168.0.0/24"
+echo "sshd: $NETWORK" >> /etc/hosts.allow
+
 # Set time
 /etc/init.d/ntp stop
 /usr/sbin/ntpdate 0.se.pool.ntp.org
@@ -97,16 +104,14 @@ then
   wget https://github.com/downloads/libevent/libevent/libevent-2.0.21-stable.tar.gz.asc
   wget https://www.openssl.org/source/openssl-1.0.1e.tar.gz
   wget https://www.openssl.org/source/openssl-1.0.1e.tar.gz.asc
-  wget https://www.torproject.org/dist/tor-0.2.3.25.tar.gz
-  wget https://www.torproject.org/dist/tor-0.2.3.25.tar.gz.asc
-  #wget https://www.torproject.org/dist/tor-0.2.4.16-rc.tar.gz
-  #wget https://www.torproject.org/dist/tor-0.2.4.16-rc.tar.gz.asc
+  wget https://www.torproject.org/dist/tor-0.2.4.17-rc.tar.gz
+  wget https://www.torproject.org/dist/tor-0.2.4.17-rc.tar.gz.asc
   wget http://miniupnp.free.fr/files/download.php?file=miniupnpc-1.8.20130801.tar.gz -O miniupnpc-1.8.20130801.tar.gz
   
   # Unpack downloaded files
   tar zxf libevent-2.0.21-stable.tar.gz
   tar zxf openssl-1.0.1e.tar.gz 
-  tar zxf tor-0.2.3.25.tar.gz
+  tar zxf tor-0.2.4.17-rc.tar.gz
   tar zxf miniupnpc-1.8.20130801.tar.gz
   
   # build and install stuff
@@ -127,7 +132,7 @@ then
   make install
   cd ..
   
-  cd tor-0.2.3.25/
+  cd tor-0.2.4.17-rc/
   ./configure --with-libevent-dir=/usr/local --with-openssl-dir=/usr/local --prefix=/usr/local
   make -j2
   make install

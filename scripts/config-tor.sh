@@ -25,16 +25,11 @@ then
   mkdir -p /usr/local/etc/tor
 fi
 
-# The following is pending figuring out why prerouting isnt working on the rpi
-#iptables --table nat -F
-#iptables -t nat -A PREROUTING -p tcp -i eth0 --dport 443 -j DNAT --to-destination 127.0.0.1:9090
-#ORPort $MYPORT NoListen
-#ORPort 127.0.0.1:9090 NoAdvertise
-
 # Setup config
 cat > /usr/local/etc/tor/torrc <<EOF
 RunAsDaemon 1
 Nickname $HOSTNAME
+User tor
 ORPort $MYPORT
 BandwidthRate $SPEED KB 
 BandwidthBurst $SPEED KB
