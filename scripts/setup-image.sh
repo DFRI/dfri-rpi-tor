@@ -24,14 +24,32 @@ then
 fi
 
 # Some variables
-PIHOSTNAME=Rydepitest
 PIIMAGE=$1
+PIHOSTNAME=$2
+PASSWORD=$3
 MOUNTDIR=/mnt
+
+# Checking if the image is in the arguments
 if [ ! -f "${PIIMAGE}" ]
 then
   echo "Hmm, cannot find that image, sure you meant this one?: ${PIIMAGE}" 
   exit 3
 fi
+
+# Checking if hostname is in arguments
+if [ -z "${PIHOSTNAME}" ]
+then
+  PIHOSTNAME=DFRIpi000
+  echo "Could not find a hostname, setting it to $PIHOSTNAME"
+fi
+
+# Random password
+# We decided to use 8 characters, for readability reasons, also using "secure"-flag to make it slightly more random 
+if [ -z "${PASSWORD}" ]
+then
+  PASSWORD=$(pwgen -B -s 8 1)
+fi
+echo "Setting ${PIHOSTNAME} and giving pi-user the password: ${PASSWORD}"
 
 # Mount image
 LOOPDEV1=$(losetup -f --show ${PIIMAGE})
@@ -76,11 +94,9 @@ ln -sf dfri-rpi-tor/scripts scripts
 # Change hostname
 echo ${PIHOSTNAME} > ${MOUNTDIR}/etc/hostname 
 
-# Random password
-PASSWORD=$(pwgen -B -s 12 1)
+# Creating hash from password
 PASSWDCMD=$(dirname $0)/create-passwd-hash.pl
 PASSWDHASH=$($PASSWDCMD $PASSWORD)
-echo "Setting ${PIHOSTNAME} and giving pi-user the password: ${PASSWORD}"
 
 # Set pi users password
 grep -v ^pi: ${MOUNTDIR}/etc/shadow > ${MOUNTDIR}/etc/shadow-new
