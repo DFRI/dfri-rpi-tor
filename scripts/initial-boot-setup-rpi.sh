@@ -29,7 +29,7 @@ fi
 echo "ALL: ALL" >> /etc/hosts.deny
 
 # Fix hosts.allow
-NETWORK="192.168.0.0/24"
+NETWORK="$(/root/scripts/check-ipsubnet.sh $(ifconfig eth0 | awk '{ print $2, $NF }' | sed -e 's/addr://g' -e 's/Mask://g')"
 echo "sshd: $NETWORK" >> /etc/hosts.allow
 
 # Set time

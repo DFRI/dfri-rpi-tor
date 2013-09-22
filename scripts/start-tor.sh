@@ -2,12 +2,6 @@
 # A small simple script to start tor
 # Eh, will work better and be prettier when iptables redirect works
 
-# Small fix for ssh, will be removed from this script
-NETWORK="192.168.1.0/24"
-grep -v ^sshd: /etc/hosts.allow > /etc/hosts.allow.new
-mv /etc/hosts.allow.new /etc/hosts.allow
-echo "sshd: $NETWORK" >> /etc/hosts.allow
-
 # Make sure that /usr/local/var/lib/tor exists
 if [ ! -d "/usr/local/var/lib/tor" ]
 then
