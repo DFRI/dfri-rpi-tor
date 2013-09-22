@@ -86,6 +86,7 @@ fi
 # Fix rc.local
 egrep -v "/root/scripts|exit 0" /etc/rc.local > /etc/rc.local-new
 echo "/root/scripts/initial-boot-setup-rpi.sh" >> /etc/rc.local-new
+echo "/root/scripts/on-rpi-boot.sh" >> /etc/rc.local-new
 echo "/root/scripts/config-tor.sh" >> /etc/rc.local-new
 echo "/root/scripts/backup-rpi.sh" >> /etc/rc.local-new
 echo "/root/scripts/start-tor.sh" >> /etc/rc.local-new

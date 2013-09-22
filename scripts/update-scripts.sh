@@ -1,4 +1,11 @@
 #!/bin/bash
+# Just make sure that we're running on-rpi-boot.sh on every boot
+if [ "$(grep -c on-rpi-boot.sh /etc/rc.local)" != "1" ]
+then
+  echo "/root/scripts/on-rpi-boot.sh" >> /etc/rc.local
+  /root/scripts/on-rpi-boot.sh
+fi
+
 cd /root
 if [ -d /root/dfri-rpi-tor ]
 then
