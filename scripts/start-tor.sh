@@ -17,13 +17,8 @@ fi
 # Make sure we have the correct access rights
 if [ "$(stat -c %U /usr/local/var/lib/tor)" != "tor" ]
 then
-  chown -R tor:tor /usr/local/var/lib/tor
+  chown -R tor:tor /usr/local/var/lib/tor /usr/local/etc/tor
 fi
 
-if [ -f /usr/local/bin/tor ]
-then
-  chown -R root /usr/local/etc/tor /usr/local/var/lib/tor
-fi
-#su - tor -c "/usr/local/bin/tor"
 /usr/local/bin/tor -f /usr/local/etc/tor/torrc
 exit 0
