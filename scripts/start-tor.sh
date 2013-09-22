@@ -12,6 +12,11 @@ echo "sshd: $NETWORK" >> /etc/hosts.allow
 if [ ! -d "/usr/local/var/lib/tor" ]
 then
   mkdir -p /usr/local/var/lib/tor
+fi
+
+# Make sure we have the correct access rights
+if [ "$(stat -c %U /usr/local/var/lib/tor)" != "tor" ]
+then
   chown -R tor:tor /usr/local/var/lib/tor
 fi
 
