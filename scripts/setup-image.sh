@@ -39,7 +39,7 @@ fi
 # Checking if hostname is in arguments
 if [ -z "${PIHOSTNAME}" ]
 then
-  PIHOSTNAME=DFRIpi000
+  PIHOSTNAME=DFRIfriendlypi$[ ( $RANDOM % 999 ) ]
   echo "Could not find a hostname, setting it to $PIHOSTNAME"
 fi
 
