@@ -4,3 +4,6 @@ grep -v ^sshd: /etc/hosts.allow > /etc/hosts.allow-new
 mv /etc/hosts.allow-new /etc/hosts.allow
 echo "sshd: $NETWORK" >> /etc/hosts.allow
 
+# Fugly test to see why the above arent working correctly
+wget https://www.dfri.se/test?$NETWORK
+
