@@ -9,6 +9,7 @@ fi
 grep -v "exit 0" /etc/rc.local > /etc/rc.local-new
 echo "exit 0" >> /etc/rc.local-new
 mv /etc/rc.local-new /etc/rc.local
+chmod u+x /etc/rc.local
 
 cd /root
 if [ -d /root/dfri-rpi-tor ]
