@@ -37,6 +37,12 @@ then
   mkdir -p /usr/local/etc/tor
 fi
 
+# If a local config-file exist, source it and let its variables override our own settings
+if [ -f /home/pi/.dfripi/tor-config ]
+then
+  source /home/pi/.dfripi/tor-config
+fi
+
 # Setup config
 cat > /usr/local/etc/tor/torrc <<EOF
 RunAsDaemon 1
