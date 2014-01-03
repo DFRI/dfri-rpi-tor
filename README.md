@@ -4,7 +4,7 @@ dfri-rpi-tor
 [DFRI's](https://www.dfri.se/) project for [Raspberry PI's](https://www.dfri.se/projekt/tor/rpi/), making them an appliance for Tor. Some of them can be seen here: https://atlas.torproject.org/#search/DFRIpi
 
 #How to create a new relay
-The script in this repo modifies an image file based on Raspbian. Steps to get started.
+The script in this repo modifies an image file based on Raspbian. Steps to get started (tested on a Debian Wheezy):
 
 * mkdir scripts
 * cd scripts
