@@ -14,7 +14,7 @@ The script in this repo modifies an image file based on Raspbian. Steps to get s
 * wget https://www.dfri.se/files/dfri-pi-current.img.bz2
 * bunzip2 dfri-pi-current.img.bz2 &nbsp;&nbsp;&nbsp;### filesize 934 MB --> 3.8 GB
 * sha1sum dfri-pi-current.img &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;### should be 7a406aa630919adcd502dafec1bf715dbc8591cf
-* sudo scripts/setup-image.sh scripts/dfri-pi-current.img [hostname] [secretpassword] &nbsp;&nbsp;&nbsp;### hostname e.g. "DFRIpi123"
+* sudo scripts/setup-image.sh dfri-pi-current.img [hostname] [secretpassword] &nbsp;&nbsp;&nbsp;### hostname e.g. "DFRIpi123"
 * Done. Now write the modified image to a SD card (minimum size 4GB).
 * Insert the card into the Pi, connect a network cable and power.
 * Wait and watch for your hostname to be listed at https://atlas.torproject.org/#search/[hostname]
