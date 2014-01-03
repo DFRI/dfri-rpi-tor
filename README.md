@@ -9,8 +9,8 @@ The script in this repo modifies an image file based on Raspbian. Steps to get s
 * su -
 * mkdir scripts
 * cd scripts
-* wget https://raw.github.com/DFRI/dfri-rpi-tor/master/scripts/create-passwd-hash.pl
-* wget https://raw.github.com/DFRI/dfri-rpi-tor/master/scripts/setup-image.sh
+* wget https://raw.github.com/DFRI/dfri-rpi-tor/master/scripts/create-passwd-hash.pl && chmod 755 create-passwd-hash.pl
+* wget https://raw.github.com/DFRI/dfri-rpi-tor/master/scripts/setup-image.sh && chmod 755 setup-image.sh
 * cd ..
 * wget https://www.dfri.se/files/dfri-pi-current.img.bz2
 * bunzip2 dfri-pi-current.img.bz2 &nbsp;&nbsp;&nbsp;### filesize 934 MB --> 3.8 GB
