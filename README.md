@@ -17,4 +17,7 @@ The script in this repo modifies an image file based on Raspbian. Steps to get s
 * sudo scripts/setup-image.sh dfri-pi-current.img [hostname] [secretpassword] &nbsp;&nbsp;&nbsp;### hostname e.g. "DFRIpi123"
 * Done. Now write the modified image to a SD card (minimum size 4GB).
 * Insert the card into the Pi, connect a network cable and power.
+* Now the RPi will download and install updates and then reboot itself (this normally takes about 10-15 minutes).
+* After the automatic reboot, Tor will be started.
 * Wait and watch for your hostname to be listed at https://atlas.torproject.org/#search/[hostname]
+* (remember to setup port forwarding in your router/firewall if the RPi is located on a NAT:ed private LAN)
