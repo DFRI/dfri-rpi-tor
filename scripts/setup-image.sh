@@ -15,6 +15,7 @@ check_binary_exists losetup
 check_binary_exists whoami
 check_binary_exists pwgen
 check_binary_exists dirname
+check_binary_exists git
 
 # Am i root?
 if [ $(whoami) != "root" ]
@@ -77,7 +78,7 @@ rm -f ${MOUNTDIR}/etc/ssh/*key* ${MOUNTDIR}/usr/local/etc/tor/torrc
 rm -rf ${MOUNTDIR}/usr/local/var/lib/tor ${MOUNTDIR}/root ${MOUNTDIR}/home/pi
 
 # recreate directories
-mkdir ${MOUNTDIR}/root ${MOUNTDIR}/home/pi
+mkdir -p ${MOUNTDIR}/root ${MOUNTDIR}/home/pi
 
 # Fix pi-home
 cp -p ${MOUNTDIR}/etc/skel/.* ${MOUNTDIR}/home/pi/ > /dev/null 2>&1
@@ -124,9 +125,12 @@ cd
 sleep 1
 
 # Done editing
+echo "Done. Image-file has been modified."
+echo "You can cleanup (remove) these dirs now if you want: ${MOUNTDIR}/root ${MOUNTDIR}/home/pi"
 
 # Just a gentle tip
-echo "You probably can copy the image with the following command"
+echo ""
+echo "Now you can probably write the image to SD using a command like this:"
 echo "dd if=${PIIMAGE} of=/dev/mmcblk0"
 
 # Umount image
