@@ -31,7 +31,19 @@ then
   echo "deb http://archive.raspbian.org/raspbian jessie main contrib non-free rpi" >> /etc/apt/sources.list
 fi
 
+if [ "$(grep -c "torproject.org" /etc/apt/sources.list)" -ge 1 ]
+then
+  grep -v "torproject.org" /etc/apt/sources.list >> /etc/apt/sources.list-new
+  mv /etc/apt/sources.list-new /etc/apt/sources.list
+fi
+
 apt-get update && apt-get upgrade -y
 apt-get install -t jessie openssl tor -y
 pkill tor
 update-rc.d tor remove
+
+egrep -v "/root/scripts/|exit 0" /etc/rc.local > /etc/rc.local-new
+egrep "initial-boot|update-scripts" /etc/rc.local >> /etc/rc.local-new
+egrep -v "initial-boot|update-scripts" /etc/rc.local | grep "/root/scripts" >> /etc/rc.local-new
+echo "exit 0" >> /etc/rc.local-new
+mv /etc/rc.local-new /etc/rc.local
