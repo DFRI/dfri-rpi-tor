@@ -57,7 +57,7 @@ LOOPDEV1=$(losetup -f --show ${PIIMAGE})
 
 # Examine image on loopdevice above
 SECTORSIZE=$(fdisk -l ${LOOPDEV1} | awk '$0 ~ /^Sector size/ { print $7 }')
-STARTOFFSET=$(fdisk -l ${LOOPDEV1} | tail -1 | awk '{ print $2 }')
+STARTOFFSET=$(fdisk -l ${LOOPDEV1} | grep -v ^$ | tail -1 | awk '{ print $2 }')
 
 # Need to check sector from above output, then calculate
 # start offset from second partitons start times sector size, like so:

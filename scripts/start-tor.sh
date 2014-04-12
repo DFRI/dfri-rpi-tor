@@ -14,5 +14,11 @@ then
   chown -R tor:tor /usr/local/var/lib/tor /usr/local/etc/tor
 fi
 
-/usr/local/bin/tor -f /usr/local/etc/tor/torrc
+if [ -f /usr/bin/tor ]
+then
+  /usr/bin/tor -f /usr/local/etc/tor/torrc
+else
+  /usr/local/bin/tor -f /usr/local/etc/tor/torrc
+fi
+ 
 exit 0
