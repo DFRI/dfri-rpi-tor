@@ -31,5 +31,7 @@ then
   echo "deb http://archive.raspbian.org/raspbian jessie main contrib non-free rpi" >> /etc/apt/sources.list
 fi
 
-apt-get update && apt-get upgrade
-apt-get install -t jessie openssl tor
+apt-get update && apt-get upgrade -y
+apt-get install -t jessie openssl tor -y
+pkill tor
+update-rc.d tor remove
