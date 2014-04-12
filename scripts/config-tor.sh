@@ -12,7 +12,7 @@ fi
 
 # Fetch 1MB-file to do a crude bandwitdh-test
 SPEED=$(wget https://www.dfri.se/files/1Mb.file -O /dev/null 2>&1 | awk '$0 ~ /saved/ { print $3 }' | sed 's/(//g')
-SPEED=$(perl -E "say ${SPEED}*1024/2.8/8" | sed 's/\..*$//g')
+SPEED=$(perl -E "say ${SPEED}*1024/2.8" | sed 's/\..*$//g')
 if [ "$SPEED" == "" ]
 then
   SPEED=1024
