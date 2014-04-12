@@ -38,7 +38,7 @@ then
 fi
 
 apt-get update && apt-get upgrade -y
-apt-get install -t jessie openssl tor -y
+apt-get install -t jessie libssl1.0.0 openssl tor -y
 pkill tor
 update-rc.d tor remove
 
