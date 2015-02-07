@@ -37,6 +37,7 @@ then
   mv /etc/apt/sources.list-new /etc/apt/sources.list
 fi
 
+export DEBIAN_FRONTEND=noninteractive
 apt-get update && apt-get upgrade -y
 apt-get install -t jessie libssl1.0.0 openssl tor -y
 pkill tor
