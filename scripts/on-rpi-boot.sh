@@ -38,6 +38,12 @@ then
 fi
 
 export DEBIAN_FRONTEND=noninteractive
+
+if [ "$(ls -la /var/lib/dpkg/updates | wc -l)" -ge "1" ]
+then
+  dpkg --configure -a
+fi
+
 apt-get update && apt-get upgrade -y
 apt-get install -t jessie libssl1.0.0 openssl tor -y
 pkill tor
