@@ -51,7 +51,8 @@ update-rc.d tor remove
 
 egrep -v "/root/scripts/|exit 0" /etc/rc.local > /etc/rc.local-new
 egrep "initial-boot|update-scripts" /etc/rc.local >> /etc/rc.local-new
-egrep -v "initial-boot|update-scripts" /etc/rc.local | grep "/root/scripts" >> /etc/rc.local-new
+egrep -v "initial-boot|update-scripts|start-tor" /etc/rc.local | grep "/root/scripts" >> /etc/rc.local-new
+egrep "start-tor" /etc/rc.local >> /etc/rc.local-new
 echo "exit 0" >> /etc/rc.local-new
 mv /etc/rc.local-new /etc/rc.local
 chmod u+x /etc/rc.local
