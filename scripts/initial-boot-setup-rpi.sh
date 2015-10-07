@@ -75,7 +75,7 @@ crontab /tmp/root-crontab
 
 # Set up autoremove and autoclean with apt-get
 apt-get autoremove
-apt-get autoclean
+apt-get clean
 
 # Check CPU frequency, and set it to 800
 if [ "$(grep -c arm_freq /boot/config.txt)" -eq 1 ]
