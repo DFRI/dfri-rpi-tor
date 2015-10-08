@@ -73,7 +73,7 @@ echo "# Update! Scripts" >> /tmp/root-crontab
 echo "${RANDOM_MINUTE} ${RANDOM_HOUR} * * * /root/scripts/update-scripts.sh > /dev/null 2>&1" >> /tmp/root-crontab
 crontab /tmp/root-crontab
 
-# Set up autoremove and autoclean with apt-get
+# Clean up some apt storage
 apt-get autoremove
 apt-get clean
 
