@@ -9,6 +9,9 @@ rm -f /etc/apt/preferences
 cat << EOF > /etc/apt/sources.list
 deb http://archive.raspbian.org/raspbian jessie main contrib non-free rpi
 EOF
+rm -f /etc/apt/sources.list.d/raspi.list
+rm -f /etc/apt/sources.list.d/collabora.list
+# TODO: add tor repo here
 
 export DEBIAN_FRONTEND=noninteractive
 apt-get update
@@ -27,7 +30,7 @@ then
   dpkg --configure -a
 fi
 
-apt-get dist-upgrade -y
+apt-get dist-upgrade -y --force-yes
 apt-get install tor -y
 apt-get clean
 apt-get autoremove
