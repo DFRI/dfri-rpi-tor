@@ -11,13 +11,23 @@ deb http://archive.raspbian.org/raspbian jessie main contrib non-free rpi
 EOF
 
 export DEBIAN_FRONTEND=noninteractive
+apt-get update
+
+# remove old dirs and some packages to free space before upgrade
+rm -rf /2013*-backup-dfri-rpi /2014*-backup-dfri-rpi /2015*-backup-dfri-rpi
+rm -rf /usr/local/source/openssl*
+rm -rf /usr/local/source/tor-*
+rm -rf /usr/local/source/libevent*
+apt-get purge -y scratch pypy-upstream smbclient xserver-* libx11* omxplayer desktop-base
+apt-get autoremove -y
+apt-get clean
 
 if [ "$(ls -la /var/lib/dpkg/updates | wc -l)" -ge "1" ]
 then
   dpkg --configure -a
 fi
 
-apt-get update && apt-get dist-upgrade -y
+apt-get dist-upgrade -y
 apt-get install tor -y
 apt-get clean
 apt-get autoremove
