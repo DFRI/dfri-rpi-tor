@@ -2,6 +2,9 @@
 # Description
 # This script will do what we need to configure the tor-node
 
+set -eu
+set -o pipefail
+
 # Small temporary addition to make sure that we're running "update-scripts.sh" every time we boot the rpi
 if [ "$(grep -c update-scripts.sh /etc/rc.local)" != "1" ]
 then
