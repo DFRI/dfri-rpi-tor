@@ -1,24 +1,24 @@
 #!/bin/bash
+set -e
+
 # A small simple script to start tor
 # Eh, will work better and be prettier when iptables redirect works
 
-# Make sure that /usr/local/var/lib/tor exists
-if [ ! -d "/usr/local/var/lib/tor" ]
-then
-  mkdir -p /usr/local/var/lib/tor
-fi
+# Ensure /usr/local/var/lib/tor exists
+mkdir -p /usr/local/var/lib/tor
 
-# Make sure we have the correct access rights
-if [ "$(stat -c %U /usr/local/var/lib/tor)" != "tor" ]
-then
-  chown -R tor:tor /usr/local/var/lib/tor /usr/local/etc/tor
-fi
+# Ensure tor owns all necessary files
+chown -R tor:tor /usr/local/var/lib/tor /usr/local/etc/tor
 
-if [ -f /usr/bin/tor ]
+if [ -x /usr/bin/tor ]
 then
   /usr/bin/tor -f /usr/local/etc/tor/torrc
-else
+elif [ -x /usr/local/bin/tor ]
+then
   /usr/local/bin/tor -f /usr/local/etc/tor/torrc
+else
+  echo 'No tor binary!' >&2
+  exit 1
 fi
  
 exit 0
