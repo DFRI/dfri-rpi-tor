@@ -4,38 +4,11 @@ grep -v ^sshd: /etc/hosts.allow > /etc/hosts.allow-new
 mv /etc/hosts.allow-new /etc/hosts.allow
 echo "sshd: $NETWORK" >> /etc/hosts.allow
 
-if [ ! -f /etc/apt/preferences ]
-then
-  cat << EOF > /etc/apt/preferences
-Package: *
-Pin: release n=wheezy
-Pin-Priority: 900
+rm -f /etc/apt/preferences
 
-Package: *
-Pin: release n=jessie
-Pin-Priority: 300
-
-Package: *
-Pin: release o=Raspbian
-Pin-Priority: -10
+cat << EOF > /etc/apt/sources.list
+deb http://archive.raspbian.org/raspbian jessie main contrib non-free rpi
 EOF
-fi
-
-if [ "$(grep -c "http://archive.raspbian.org/raspbian wheezy" /etc/apt/sources.list)" = 0 ]
-then
-  echo "deb http://archive.raspbian.org/raspbian wheezy main contrib non-free rpi" >> /etc/apt/sources.list
-fi
-
-if [ "$(grep -c "http://archive.raspbian.org/raspbian jessie" /etc/apt/sources.list)" = 0 ]
-then
-  echo "deb http://archive.raspbian.org/raspbian jessie main contrib non-free rpi" >> /etc/apt/sources.list
-fi
-
-if [ "$(grep -c "torproject.org" /etc/apt/sources.list)" -ge 1 ]
-then
-  grep -v "torproject.org" /etc/apt/sources.list >> /etc/apt/sources.list-new
-  mv /etc/apt/sources.list-new /etc/apt/sources.list
-fi
 
 export DEBIAN_FRONTEND=noninteractive
 
@@ -44,9 +17,10 @@ then
   dpkg --configure -a
 fi
 
-apt-get update && apt-get upgrade -y
-apt-get install -t jessie libssl1.0.0 openssl tor -y
+apt-get update && apt-get dist-upgrade -y
+apt-get install tor -y
 apt-get clean
+apt-get autoremove
 pkill tor
 update-rc.d tor remove
 
