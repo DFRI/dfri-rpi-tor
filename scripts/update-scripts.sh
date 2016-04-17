@@ -1,6 +1,8 @@
 #!/bin/bash
+set -e
+
 # Just make sure that we're running on-rpi-boot.sh on every boot
-if [ "$(grep -c on-rpi-boot.sh /etc/rc.local)" != "1" ]
+if ! grep -q on-rpi-boot.sh /etc/rc.local
 then
   echo "/root/scripts/on-rpi-boot.sh" >> /etc/rc.local
   /root/scripts/on-rpi-boot.sh
@@ -16,8 +18,8 @@ if [ -d /root/dfri-rpi-tor ]
 then
   mv dfri-rpi-tor dfri-rpi-tor-saved
 fi
-git clone https://github.com/DFRI/dfri-rpi-tor.git
-if [ $? -eq 0 ]
+
+if git clone https://github.com/DFRI/dfri-rpi-tor.git
 then
   rm -rf dfri-rpi-tor-saved
 else
