@@ -1,4 +1,7 @@
 #!/bin/bash
+set -eu
+set -o pipefail
+
 # Check if this has already been run
 if [ -f /etc/dfri-setup-done ]
 then
@@ -30,6 +33,7 @@ echo "ALL: ALL" >> /etc/hosts.deny
 
 # Fix hosts.allow
 NETWORK="$(/root/scripts/check-ipsubnet.sh $(ifconfig eth0 | awk '$0 ~ /Bcast/ { print $2, $NF }' | sed -e 's/addr://g' -e 's/Mask://g'))"
+declare -r NETWORK
 grep -v ^sshd: /etc/hosts.allow > /etc/hosts.allow-new
 mv /etc/hosts.allow-new /etc/hosts.allow
 echo "sshd: $NETWORK" >> /etc/hosts.allow
@@ -50,7 +54,7 @@ then
 fi
 
 # Setup cronjob, just in case, time is important
-RANDOM_MINUTE=$[ ( $RANDOM % 60 ) ]
+declare -i RANDOM_MINUTE=$[ ( $RANDOM % 60 ) ]
 crontab -l > /tmp/root-crontab
 echo "# ntpdate, set time, its important" >> /tmp/root-crontab
 echo "${RANDOM_MINUTE} 1 * * * ( /etc/init.d/ntp stop ; /usr/sbin/ntpdate 0.se.pool.ntp.org ; /etc/init.d/ntp start ) > /dev/null 2>&1" >> /tmp/root-crontab
@@ -58,8 +62,8 @@ crontab /tmp/root-crontab
 
 # Add another cronjob, update-rpi.sh
 RANDOM_MINUTE=$[ ( $RANDOM % 60 ) ]
-RANDOM_HOUR=$[ ( $RANDOM % 24 ) ]
-RANDOM_MONTHDAY=$[ ( $RANDOM % 24 ) + 1 ]
+declare -i RANDOM_HOUR=$[ ( $RANDOM % 24 ) ]
+declare -i RANDOM_MONTHDAY=$[ ( $RANDOM % 24 ) + 1 ]
 crontab -l > /tmp/root-crontab
 echo "# Update! RPI" >> /tmp/root-crontab
 echo "${RANDOM_MINUTE} ${RANDOM_HOUR} ${RANDOM_MONTHDAY} * * /root/scripts/update-rpi.sh > /dev/null 2>&1" >> /tmp/root-crontab
@@ -78,7 +82,7 @@ apt-get autoremove
 apt-get clean
 
 # Check CPU frequency, and set it to 800
-if [ "$(grep -c arm_freq /boot/config.txt)" -eq 1 ]
+if ! grep -q arm_freq /boot/config.txt
 then
   sed -i 's/arm_freq=.*$/arm_freq=800/g' /boot/config.txt
 else
